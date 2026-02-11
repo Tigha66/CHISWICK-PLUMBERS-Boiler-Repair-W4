@@ -1,72 +1,212 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chiswick Plumbers & Boiler Repair W4</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiswick Plumbers - AI Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-      body {
-        font-family: 'Inter', sans-serif;
-        background-color: #050614;
-        color: #e2e8f0;
-      }
-      h1, h2, h3, h4, .font-display {
-        font-family: 'Space Grotesk', sans-serif;
-      }
-      .cosmic-gradient {
-        background: linear-gradient(135deg, #1a1b4b 0%, #050614 100%);
-      }
-      .purple-glow {
-        box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-      }
-      .glass-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-      .animate-gradient {
-        background-size: 200% 200%;
-        animation: gradient 8s ease infinite;
-      }
-      @keyframes gradient {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #050614;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #2d2e5a;
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #4a4c9a;
-      }
+        body { font-family: 'Inter', sans-serif; background: #050614; color: #e2e8f0; }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        @keyframes pulseGlow { 0%,100%{box-shadow:0 0 20px rgba(139,92,246,0.4)} 50%{box-shadow:0 0 40px rgba(139,92,246,0.8)} }
+        .pulseGlow { animation: pulseGlow 2s infinite; }
+        .voiceWave span { width:3px; background:#22c55e; border-radius:3px; animation:wave 0.8s infinite; }
+        @keyframes wave { 0%,100%{height:40%} 50%{height:100%} }
     </style>
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@19.2.3",
-        "react/": "https://esm.sh/react@19.2.3/",
-        "react-dom": "https://esm.sh/react-dom@19.2.3",
-        "react-dom/": "https://esm.sh/react-dom@19.2.3/",
-        "@google/genai": "https://esm.sh/@google/genai@1.34.0"
-      }
-    }
+</head>
+<body class="min-h-screen">
+    <!-- Nav -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-[#050614]/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                </div>
+                <span class="font-bold text-xl text-white">CHISWICK <span class="text-purple-500">PLUMBERS</span></span>
+            </div>
+            <a href="#contact" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition">Get Quote</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="pt-32 pb-20 px-4 bg-gradient-to-br from-[#1a1b4b] to-[#050614]">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <div class="inline-flex items-center px-4 py-2 bg-purple-500/20 rounded-full text-purple-400 text-sm mb-6">
+                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>24/7 Emergency Service
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">Expert Boiler & <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Plumbing Services</span></h1>
+                <p class="text-xl text-slate-300 mb-8">Gas Safe registered engineers available round-the-clock across West London.</p>
+                <div class="flex gap-4">
+                    <a href="#contact" class="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl transition pulseGlow">Book Online</a>
+                    <a href="tel:02079461234" class="px-8 py-4 glass hover:bg-white/10 text-white font-semibold rounded-xl transition">Call Now</a>
+                </div>
+            </div>
+            <div class="floating">
+                <div class="glass rounded-3xl p-8">
+                    <div class="text-center mb-6">
+                        <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center text-4xl">🤖</div>
+                        <h3 class="text-xl font-bold text-white">AI Assistant</h3>
+                        <p class="text-slate-400 text-sm">Ask me about plumbing!</p>
+                    </div>
+                    <div class="space-y-2" onclick="sendQuick('Boiler making noise')">
+                        <div class="flex items-center space-x-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 cursor-pointer transition"><span>🔧</span><span class="text-slate-300 text-sm">Boiler making noise</span></div>
+                        <div class="flex items-center space-x-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 cursor-pointer transition"><span>💧</span><span class="text-slate-300 text-sm">Leaking pipe</span></div>
+                        <div class="flex items-center space-x-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 cursor-pointer transition"><span>🚿</span><span class="text-slate-300 text-sm">No hot water</span></div>
+                        <div class="flex items-center space-x-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 cursor-pointer transition"><span>📅</span><span class="text-slate-300 text-sm">Book a service</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-white text-center mb-12">Our Services</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass p-8 rounded-3xl hover:-translate-y-2 transition-all"><div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-4 text-3xl">🔥</div><h3 class="text-xl font-bold text-white mb-2">Boiler Installation</h3><p class="text-slate-400">Expert installation of Worcester Bosch, Vaillant, and Baxi boilers.</p></div>
+                <div class="glass p-8 rounded-3xl hover:-translate-y-2 transition-all"><div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-4 text-3xl">🔧</div><h3 class="text-xl font-bold text-white mb-2">Boiler Repair</h3><p class="text-slate-400">Fast, reliable repairs with same-day service. 12-month guarantee.</p></div>
+                <div class="glass p-8 rounded-3xl hover:-translate-y-2 transition-all"><div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-4 text-3xl">💨</div><h3 class="text-xl font-bold text-white mb-2">Central Heating</h3><p class="text-slate-400">Complete heating system installation and maintenance.</p></div>
+                <div class="glass p-8 rounded-3xl hover:-translate-y-2 transition-all"><div class="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-4 text-3xl">🚿</div><h3 class="text-xl font-bold text-white mb-2">Plumbing</h3><p class="text-slate-400">Leaks, installations, and full bathroom services.</p></div>
+                <div class="glass p-8 rounded-3xl hover:-translate-y-2 transition-all"><div class="w-14 h-14 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center mb-4 text-3xl">🌡️</div><h3 class="text-xl font-bold text-white mb-2">Smart Thermostats</h3><p class="text-slate-400">Nest, Hive, and smart heating controls.</p></div>
+                <div class="glass p-8 rounded-3xl hover:-translate-y-2 transition-all"><div class="w-14 h-14 bg-gradient-to-br from-red-500 to-pink-500 rounded-2xl flex items-center justify-center mb-4 text-3xl">🚨</div><h3 class="text-xl font-bold text-white mb-2">24/7 Emergency</h3><p class="text-slate-400">Round-the-clock emergency callout service.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-20 px-4 bg-gradient-to-br from-[#1a1b4b] to-[#050614]">
+        <div class="max-w-2xl mx-auto glass rounded-3xl p-8 md:p-12">
+            <h2 class="text-3xl font-bold text-white text-center mb-8">Request a Free Quote</h2>
+            <form id="quoteForm" class="space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div><label class="block text-sm text-slate-300 mb-2">Your Name</label><input type="text" required class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-purple-500"></div>
+                    <div><label class="block text-sm text-slate-300 mb-2">Phone</label><input type="tel" required class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-purple-500"></div>
+                </div>
+                <div><label class="block text-sm text-slate-300 mb-2">Email</label><input type="email" required class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-purple-500"></div>
+                <div><label class="block text-sm text-slate-300 mb-2">Service</label><select class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-purple-500"><option>Boiler Installation</option><option>Boiler Repair</option><option>Central Heating</option><option>Plumbing</option><option>Emergency</option></select></div>
+                <div><label class="block text-sm text-slate-300 mb-2">Message</label><textarea rows="4" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-purple-500"></textarea></div>
+                <button type="submit" class="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl transition pulseGlow">Request Free Quote</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center border-t border-white/10"><p class="text-slate-500">© 2026 Chiswick Plumbers W4. Gas Safe Registered.</p></footer>
+
+    <!-- AI Chatbot -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <div id="chatBtn" onclick="toggleChat()" class="w-16 h-16 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center shadow-[0_10px_40px_rgba(139,92,246,0.5)] hover:scale-110 transition-all cursor-pointer">
+            <span class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[#050614] animate-pulse"></span>
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+        </div>
+        <div id="chatWindow" class="hidden fixed bottom-24 right-6 w-[380px] h-[550px] glass rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden">
+            <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-4 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl relative">
+                        🤖<span id="voiceInd" class="absolute -bottom-1 -right-1 hidden w-3 h-3 bg-green-500 rounded-full"></span>
+                    </div>
+                    <div><h4 class="font-bold text-white text-sm">Chiswick AI</h4><div class="flex items-center text-[10px] text-white/70"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-1"></span>Online</div></div>
+                </div>
+                <div class="flex space-x-2">
+                    <button onclick="toggleVoice()" class="p-2 text-white/80 hover:text-white transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg></button>
+                    <button onclick="toggleChat()" class="p-2 text-white/80 hover:text-white transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                </div>
+            </div>
+            <div class="bg-white/5 p-3 border-b border-white/10 flex gap-2 overflow-x-auto"><button onclick="sendQuick('Boiler not heating')" class="px-3 py-1 bg-white/5 hover:bg-white/10 rounded-full text-xs text-slate-300 whitespace-nowrap">🔧 Boiler</button><button onclick="sendQuick('Leaking pipe')" class="px-3 py-1 bg-white/5 hover:bg-white/10 rounded-full text-xs text-slate-300 whitespace-nowrap">💧 Leak</button><button onclick="sendQuick('No hot water')" class="px-3 py-1 bg-white/5 hover:bg-white/10 rounded-full text-xs text-slate-300 whitespace-nowrap">🚿 No Hot Water</button></div>
+            <div id="chatMsgs" class="flex-1 overflow-y-auto p-4 space-y-3 bg-black/20"></div>
+            <div id="voiceStat" class="hidden bg-red-500/20 border-t border-red-500/30 px-4 py-2 flex items-center justify-center gap-2"><div class="voiceWave flex items-end gap-1"><span></span><span></span><span></span><span></span><span></span></div><span class="text-red-400 text-sm">Listening...</span></div>
+            <form id="chatForm" class="p-4 bg-white/5 border-t border-white/10">
+                <div class="flex gap-2">
+                    <button type="button" onclick="toggleVoice()" id="micBtn" class="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg></button>
+                    <input type="text" id="chatInput" placeholder="Type or speak..." class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500">
+                    <button type="submit" class="w-10 h-10 rounded-xl bg-purple-600 hover:bg-purple-500 text-white flex items-center justify-center transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></button>
+                </div>
+            </form>
+            <div class="p-3 bg-red-500/10 border-t border-red-500/20"><a href="tel:02079461234" class="flex items-center justify-center space-x-2 w-full py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl font-semibold transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><span>Emergency Call</span></a></div>
+        </div>
+    </div>
+
+    <script>
+        let isOpen = false, isListening = false, synth = window.speechSynthesis, rec = null;
+        const msgs = document.getElementById('chatMsgs');
+        
+        function toggleChat() {
+            isOpen = !isOpen;
+            document.getElementById('chatWindow').classList.toggle('hidden', !isOpen);
+            if (isOpen && !rec) initRec();
+        }
+        
+        function initRec() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                rec.continuous = false; rec.lang = 'en-GB';
+                rec.onresult = e => { document.getElementById('chatInput').value = e.results[0][0].transcript; setListen(false); sendMsg(e.results[0][0].transcript); };
+                rec.onerror = rec.onend = () => setListen(false);
+            }
+        }
+        
+        function toggleVoice() {
+            if (!rec) return alert('Use Chrome or Edge');
+            isListening ? rec.stop() : rec.start();
+            setListen(isListening);
+        }
+        
+        function setListen(s) {
+            isListening = s;
+            document.getElementById('voiceStat').classList.toggle('hidden', !s);
+            document.getElementById('micBtn').classList.toggle('bg-red-500', s);
+            document.getElementById('micBtn').classList.toggle('animate-pulse', s);
+        }
+        
+        function speak(t) {
+            synth.cancel();
+            const u = new SpeechSynthesisUtterance(t);
+            u.rate = 1; const v = synth.getVoices().find(x => x.lang.includes('GB'));
+            if (v) u.voice = v;
+            document.getElementById('voiceInd').classList.toggle('hidden', !synth.speaking);
+            synth.speak(u);
+        }
+        
+        function addMsg(text, isUser) {
+            msgs.innerHTML += `<div class="flex ${isUser?'justify-end':'justify-start'}"><div class="max-w-[85%] p-3 rounded-2xl ${isUser?'bg-purple-600 text-white':'glass text-slate-200'} text-sm">${text}</div></div>`;
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+        
+        function sendQuick(text) {
+            if(!isOpen) toggleChat();
+            setTimeout(() => sendMsg(text), 300);
+        }
+        
+        function sendMsg(text) {
+            if(!text.trim()) return;
+            addMsg(text, true);
+            document.getElementById('chatInput').value = '';
+            setTimeout(() => {
+                const responses = {
+                    'boiler': '🔧 For boiler issues, we offer same-day repairs. Our Gas Safe engineers can diagnose and fix most problems within hours. Would you like to book an appointment?',
+                    'leak': '💧 Leaking pipes need urgent attention to prevent water damage. We can be there within the hour for emergencies. What type of leak is it?',
+                    'hot water': '🚿 No hot water could be your boiler, immersion heater, or plumbing issue. Our team can diagnose and fix it today.',
+                    'book': '📅 Great! To book a service, please fill in the form above or call us directly on 020 7946 1234.',
+                    'price': '💰 Our prices start from £80 for boiler repairs and £1500 for new boiler installations. Get a free quote above!'
+                };
+                let resp = "Hello! I'm the Chiswick Plumbing AI. For immediate assistance, call 📞 020 7946 1234. Otherwise, I can help with boiler issues, leaks, or bookings!";
+                const lower = text.toLowerCase();
+                if(lower.includes('boiler')) resp = responses['boiler'];
+                else if(lower.includes('leak') || lower.includes('water')) resp = responses['leak'];
+                else if(lower.includes('hot') || lower.includes('heat')) resp = responses['hot water'];
+                else if(lower.includes('book') || lower.includes('appointment')) resp = responses['book'];
+                else if(lower.includes('price') || lower.includes('cost') || lower.includes('quote')) resp = responses['price'];
+                addMsg(resp, false);
+                speak(resp);
+            }, 500);
+        }
+        
+        document.getElementById('chatForm').onsubmit = e => { e.preventDefault(); sendMsg(document.getElementById('chatInput').value); };
     </script>
-    <script type="module" src="./index.tsx"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+</body>
 </html>
